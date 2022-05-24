@@ -1,0 +1,33 @@
+apiVersion: kfdef.apps.kubeflow.org/v1
+kind: KfDef
+metadata:
+  name: opendatahub
+  namespace: opendatahub
+spec:
+  applications:
+  - kustomizeConfig:
+      repoRef:
+        name: manifests
+        path: odh-common
+    name: odh-common
+  - kustomizeConfig:
+      repoRef:
+        name: manifests
+        path: kserve
+    name: kserve
+  - kustomizeConfig:
+      repoRef:
+        name: manifests
+        path: model-mesh
+    name: model-mesh
+  - kustomizeConfig:
+      repoRef:
+        name: manifests
+        path: odh-dashboard
+    name: odh-dashboard
+  repos:
+  - name: kf-manifests
+    uri: https://github.com/kubeflow/manifests/archive/v1.2-branch.tar.gz
+  - name: manifests
+    uri: https://github.com/crobby/odh-manifests/tarball/kserveodh
+  version: master
