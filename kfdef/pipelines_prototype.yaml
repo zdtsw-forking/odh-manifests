@@ -27,6 +27,11 @@ spec:
           name: manifests
           path: odh-dashboard
       name: odh-dashboard
+    - kustomizeConfig:
+        repoRef:
+          name: manifests
+          path: kfp-tekton
+      name: kfp-tekton
   repos:
     - name: manifests
       uri: "https://github.com/opendatahub-io/odh-manifests/tarball/pipelines-prototype"
