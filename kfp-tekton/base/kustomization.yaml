@@ -11,7 +11,6 @@ resources:
   - ./roles/kubeflow-pipelines-metadata-writer-role.yaml
   - ./roles/ml-pipeline-persistenceagent-role.yaml
   - ./roles/ml-pipeline-scheduledworkflow-role.yaml
-  - ./roles/ml-pipeline-ui.yaml
   - ./roles/ml-pipeline-viewer-controller-role.yaml
   - ./roles/ml-pipeline.yaml
   - ./roles/pipeline-runner.yaml
@@ -20,7 +19,6 @@ resources:
   - ./rolebindings/kubeflow-pipelines-metadata-writer-binding.yaml
   - ./rolebindings/ml-pipeline-persistenceagent-binding.yaml
   - ./rolebindings/ml-pipeline-scheduledworkflow-binding.yaml
-  - ./rolebindings/ml-pipeline-ui.yaml
   - ./rolebindings/ml-pipeline-viewer-crd-binding.yaml
   - ./rolebindings/ml-pipeline.yaml
   - ./rolebindings/pipeline-runner-binding.yaml
@@ -32,7 +30,6 @@ resources:
   - ./serviceaccounts/metadata-grpc-server.yaml
   - ./serviceaccounts/ml-pipeline-persistenceagent.yaml
   - ./serviceaccounts/ml-pipeline-scheduledworkflow.yaml
-  - ./serviceaccounts/ml-pipeline-ui.yaml
   - ./serviceaccounts/ml-pipeline-viewer-crd-service-account.yaml
   - ./serviceaccounts/ml-pipeline-visualizationserver.yaml
   - ./serviceaccounts/ml-pipeline.yaml
@@ -45,7 +42,6 @@ resources:
 
   # Configmaps
   - ./configmaps/kfp-tekton-config.yaml
-  - ./configmaps/ml-pipeline-ui-configmap.yaml
   - ./configmaps/pipeline-install-config.yaml
 
   # PersistentVolumeClaims
@@ -58,7 +54,6 @@ resources:
   - ./deployments/metadata-writer.yaml
   - ./deployments/ml-pipeline-persistenceagent.yaml
   - ./deployments/ml-pipeline-scheduledworkflow.yaml
-  - ./deployments/ml-pipeline-ui.yaml
   - ./deployments/ml-pipeline-viewer-crd.yaml
   - ./deployments/ml-pipeline-visualizationserver.yaml
   - ./deployments/minio.yaml
@@ -68,14 +63,10 @@ resources:
   # Services
   - ./services/metadata-envoy-service.yaml
   - ./services/metadata-grpc-service.yaml
-  - ./services/ml-pipeline-ui.yaml
   - ./services/ml-pipeline-visualizationserver.yaml
   - ./services/ml-pipeline.yaml
   - ./services/mysql.yaml
   - ./services/minio.yaml
-
-  # Routes
-  - ./routes/ml-pipeline-ui.yaml
 
 generatorOptions:
   disableNameSuffixHash: true
@@ -110,9 +101,6 @@ images:
     newTag: 1.1.0
   - name: scheduledworkflow
     newName: quay.io/internaldatahub/scheduledworkflow
-    newTag: 1.1.0
-  - name: frontend
-    newName: quay.io/internaldatahub/frontend
     newTag: 1.1.0
   - name: viewer-crd-controller
     newName: gcr.io/ml-pipeline/viewer-crd-controller
