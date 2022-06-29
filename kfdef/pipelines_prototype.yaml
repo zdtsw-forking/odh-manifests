@@ -28,6 +28,8 @@ spec:
           path: odh-dashboard
       name: odh-dashboard
     - kustomizeConfig:
+        overlays:
+          - metadata-store-mysql
         repoRef:
           name: manifests
           path: kfp-tekton

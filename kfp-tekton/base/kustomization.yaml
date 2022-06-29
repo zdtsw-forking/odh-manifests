@@ -33,19 +33,16 @@ resources:
   - ./serviceaccounts/ml-pipeline-viewer-crd-service-account.yaml
   - ./serviceaccounts/ml-pipeline-visualizationserver.yaml
   - ./serviceaccounts/ml-pipeline.yaml
-  - ./serviceaccounts/mysql.yaml
   - ./serviceaccounts/pipeline-runner.yaml
 
   # Secrets
   - ./secrets/mlpipeline-minio-artifact.yaml
-  - ./secrets/mysql-secret.yaml
 
   # Configmaps
   - ./configmaps/kfp-tekton-config.yaml
   - ./configmaps/pipeline-install-config.yaml
 
   # PersistentVolumeClaims
-  - ./persistentvolumeclaims/mysql-pv-claim.yaml
   - ./persistentvolumeclaims/minio-pvc.yaml
 
   # Deployments
@@ -58,14 +55,12 @@ resources:
   - ./deployments/ml-pipeline-visualizationserver.yaml
   - ./deployments/minio.yaml
   - ./deployments/ml-pipeline.yaml
-  - ./deployments/mysql.yaml
 
   # Services
   - ./services/metadata-envoy-service.yaml
   - ./services/metadata-grpc-service.yaml
   - ./services/ml-pipeline-visualizationserver.yaml
   - ./services/ml-pipeline.yaml
-  - ./services/mysql.yaml
   - ./services/minio.yaml
 
 generatorOptions:
@@ -111,6 +106,3 @@ images:
   - name: api-server
     newName: quay.io/internaldatahub/api-server
     newTag: 1.1.0
-  - name: mysql
-    newName: gcr.io/ml-pipeline/mysql
-    newTag: "5.7"
