@@ -30,10 +30,11 @@ spec:
     - kustomizeConfig:
         overlays:
           - metadata-store-mysql
+          - ml-pipeline-ui
         repoRef:
           name: manifests
-          path: kfp-tekton
-      name: kfp-tekton
+          path: ml-pipelines
+      name: ml-pipelines
   repos:
     - name: manifests
-      uri: "https://github.com/opendatahub-io/odh-manifests/tarball/pipelines-prototype"
+      uri: "https://github.com/opendatahub-io/odh-manifests/tarball/master"
