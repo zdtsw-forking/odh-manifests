@@ -63,6 +63,9 @@ resources:
   - ./services/ml-pipeline.yaml
   - ./services/minio.yaml
 
+  # Monitoring
+  - ../prometheus
+
 generatorOptions:
   disableNameSuffixHash: true
 
