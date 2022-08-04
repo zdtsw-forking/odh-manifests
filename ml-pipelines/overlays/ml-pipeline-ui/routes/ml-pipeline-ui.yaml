@@ -9,4 +9,6 @@ spec:
     kind: Service
     name: ml-pipeline-ui
   port:
-    targetPort: 3000
+    targetPort: 8443
+  tls:
+    termination: Reencrypt

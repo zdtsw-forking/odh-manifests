@@ -2,12 +2,16 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
+bases:
+  - ../../base
+
 resources:
   # Roles
   - ./roles/ml-pipeline-ui.yaml
 
   # Rolebindings
   - ./rolebindings/ml-pipeline-ui.yaml
+  - ./rolebindings/auth-delegator.yaml
 
   # ServiceAccounts
   - ./serviceaccounts/ml-pipeline-ui.yaml

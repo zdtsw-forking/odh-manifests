@@ -4,13 +4,15 @@ metadata:
   labels:
     app: ml-pipeline-ui
     application-crd-id: kubeflow-pipelines
+  annotations:
+    service.alpha.openshift.io/serving-cert-secret-name: ml-pipelines-ui-proxy-tls
   name: ml-pipeline-ui
 spec:
   ports:
     - name: http
-      port: 80
+      port: 8443
       protocol: TCP
-      targetPort: 3000
+      targetPort: 8443
   selector:
     app: ml-pipeline-ui
     application-crd-id: kubeflow-pipelines
