@@ -34,7 +34,7 @@ function list_pipelines() {
 
 function create_run() {
     header "Creating a run"
-    RUN_ID=$(curl -H "Content-Type: application/json" -X POST ${SVC}/apis/v1beta1/runs -d "{\"name\":\"kfp-tekton_run\", \"pipeline_spec\":{\"pipeline_id\":\"${PIPELINE_ID}\"}}" | jq -r .run.id)
+    RUN_ID=$(curl -H "Content-Type: application/json" -X POST ${SVC}/apis/v1beta1/runs -d "{\"name\":\"test-pipeline-run_run\", \"pipeline_spec\":{\"pipeline_id\":\"${PIPELINE_ID}\"}}" | jq -r .run.id)
 }
 
 function list_runs() {
