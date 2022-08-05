@@ -73,7 +73,7 @@ function delete_pipeline() {
 }
 
 check_resources
-#check_ui_overlay
+check_ui_overlay
 create_pipeline
 list_pipelines
 create_run
