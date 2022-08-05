@@ -10,7 +10,7 @@ RESOURCEDIR="${MY_DIR}/../resources"
 os::test::junit::declare_suite_start "$MY_SCRIPT"
 
 function check_resources() {
-    header "Testing Kubeflow pipelines installation"
+    header "Testing ML pipelines installation"
     os::cmd::expect_success "oc project ${ODHPROJECT}"
     os::cmd::try_until_text "oc get pods -l application-crd-id=kubeflow-pipelines --field-selector='status.phase=Running' -o jsonpath='{$.items[*].metadata.name}' | wc -w" "10" $odhdefaulttimeout $odhdefaultinterval
 }
@@ -23,8 +23,8 @@ function check_ui_overlay() {
 function create_pipeline() {
     header "Creating a pipeline"
     SVC=$(oc get route ml-pipeline --template={{.spec.host}})
-    PIPELINE_ID=$(curl -F "uploadfile=@${RESOURCEDIR}/ml-pipelines/kfp-tekton.yaml" ${SVC}/apis/v1beta1/pipelines/upload | jq -r .id)
-    os::cmd::try_until_text "curl ${SVC}/apis/v1beta1/pipelines/${PIPELINE_ID} | jq '.name'" "kfp-tekton.yaml" $odhdefaulttimeout $odhdefaultinterval
+    PIPELINE_ID=$(curl -F "uploadfile=@${RESOURCEDIR}/ml-pipelines/test-pipeline-run.yaml" ${SVC}/apis/v1beta1/pipelines/upload | jq -r .id)
+    os::cmd::try_until_text "curl ${SVC}/apis/v1beta1/pipelines/${PIPELINE_ID} | jq '.name'" "test-pipeline-run.yaml" $odhdefaulttimeout $odhdefaultinterval
 }
 
 function list_pipelines() {
