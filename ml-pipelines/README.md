@@ -15,7 +15,7 @@ ML Pipelines is the Open Data Hub's pipeline solution for data scientists. It is
 ### Installation Steps
 
 1. Ensure that the prerequisites are met.
-2. Apply the kfdef at [kfctl_openshift_ml-pipelines.yaml](https://github.com/opendatahub-io/odh-manifests/blob/pipelines-prototype/kfdef/kfctl_openshift_ml-pipelines.yaml). You may need to update the `namespace` field under `metadata` in case you want to deploy in a namespace that isn't `odh-applications`.
+2. Apply the kfdef at [kfctl_openshift_ml-pipelines.yaml](https://github.com/opendatahub-io/odh-manifests/blob/master/kfdef/kfctl_openshift_ml-pipelines.yaml). You may need to update the `namespace` field under `metadata` in case you want to deploy in a namespace that isn't `odh-applications`.
 3. To find the url for ML pipelines, you can run the following command.
     ```bash
     $ oc get route -n <kdef_namespace> ml-pipeline-ui -o jsonpath='{.spec.host}'
