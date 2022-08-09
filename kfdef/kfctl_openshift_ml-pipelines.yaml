@@ -23,6 +23,12 @@ spec:
           path: jupyterhub/notebook-images
       name: notebook-images
     - kustomizeConfig:
+        overlays:
+          - authentication
+          # Uncomment the odhdashboard overlay below to have the operator deploy the configs
+          # This should be removed from the deployed kfdef immediately after the operator deploys the configs
+          # This will prevent the operator from reconciling the configs when they have been modified externally
+          #- odhdashboardconfig
         repoRef:
           name: manifests
           path: odh-dashboard

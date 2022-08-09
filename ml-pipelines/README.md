@@ -1,6 +1,6 @@
 # ML Pipelines
 
-ML Pipelines is the Open Data Hub's pipeline solution for data scientists. It is built on top of the upstream [Kubeflow Piplines](https://github.com/kubeflow/pipelines) and [kfp-tekton](https://github.com/kubeflow/kfp-tekton) projects. The Open Data Hub community has a [fork](https://github.com/opendatahub-io/kfp-tekton) of this upstream under the Open Data Hub org.
+ML Pipelines is the Open Data Hub's pipeline solution for data scientists. It is built on top of the upstream [Kubeflow Piplines](https://github.com/kubeflow/pipelines) and [kfp-tekton](https://github.com/kubeflow/kfp-tekton) projects. The Open Data Hub community has a [fork](https://github.com/opendatahub-io/ml-pipelines) of this upstream under the Open Data Hub org.
 
 
 ## Installation
@@ -22,7 +22,7 @@ ML Pipelines is the Open Data Hub's pipeline solution for data scientists. It is
     ```
     The value of `<kfdef_namespace>` should match the namespace field of the kfdef that you applied.
 4. Alternatively, you can access the route via the console. To do so:
-    
+
     1. Go to `<kfdef_namespace>`
     2. Click on `Networking` in the sidebar on the left side.
     3. Click on `Routes`. It will take you to a new page in the console.
