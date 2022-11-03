@@ -18,6 +18,10 @@ os::test::junit::declare_suite_start "$MY_SCRIPT"
 function check_crds() {
     header "Checking for ODH Dashboard dependencies - CustomResourceDefinitions"
     os::cmd::try_until_not_text "oc get crd odhdashboardconfigs.opendatahub.io" "NotFound" $odhdefaulttimeout $odhdefaultinterval
+    os::cmd::try_until_not_text "oc get crd odhapplications.dashboard.opendatahub.io" "NotFound" $odhdefaulttimeout $odhdefaultinterval
+    os::cmd::try_until_not_text "oc get crd odhdashboardconfigs.opendatahub.io" "NotFound" $odhdefaulttimeout $odhdefaultinterval
+    os::cmd::try_until_not_text "oc get crd odhdocuments.dashboard.opendatahub.io" "NotFound" $odhdefaulttimeout $odhdefaultinterval
+    os::cmd::try_until_not_text "oc get crd odhquickstarts.console.openshift.io" "NotFound" $odhdefaulttimeout $odhdefaultinterval
 }
 
 function check_resources() {

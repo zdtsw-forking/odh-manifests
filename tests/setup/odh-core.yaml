@@ -19,8 +19,6 @@ spec:
         path: openshift-pipelines/cluster
     name: openshift-pipelines
   - kustomizeConfig:
-      overlays:
-      - authentication
       repoRef:
         name: manifests
         path: odh-dashboard

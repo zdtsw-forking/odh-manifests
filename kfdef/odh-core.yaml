@@ -10,8 +10,6 @@ spec:
         path: odh-common
     name: odh-common
   - kustomizeConfig:
-      overlays:
-      - authentication
       repoRef:
         name: manifests
         path: odh-dashboard

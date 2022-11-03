@@ -5,6 +5,15 @@ metadata:
 rules:
   - verbs:
       - get
+      - list
+    apiGroups:
+      - machine.openshift.io
+      - autoscaling.openshift.io
+    resources:
+      - machineautoscalers
+      - machinesets
+  - verbs:
+      - get
       - watch
       - list
     apiGroups:
@@ -88,11 +97,30 @@ rules:
       - list
       - watch
     apiGroups:
+      - user.openshift.io
+    resources:
+      - users
+  - verbs:
+      - get
+      - list
+      - watch
+    apiGroups:
       - ''
     resources:
       - pods
       - serviceaccounts
       - services
+  - apiGroups:
+      - ''
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+    resources:
       - namespaces
   - apiGroups:
       - rbac.authorization.k8s.io
