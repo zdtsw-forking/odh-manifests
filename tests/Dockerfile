@@ -5,7 +5,7 @@ ARG CHROMEDRIVER_VER=108.0.5359.71
 ARG ORG=opendatahub-io
 ARG BRANCH=master
 ARG ODS_CI_REPO=https://github.com/red-hat-data-services/ods-ci
-ARG ODS_CI_GITREF=master
+ARG ODS_CI_GITREF=1.20.0
 ARG OC_CLI_URL=https://mirror.openshift.com/pub/openshift-v4/amd64/clients/ocp/latest/openshift-client-linux.tar.gz
 
 ENV HOME /root
