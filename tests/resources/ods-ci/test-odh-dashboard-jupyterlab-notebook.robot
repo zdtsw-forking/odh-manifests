@@ -26,6 +26,13 @@ Can Spawn Notebook
   # We need to skip this testcase if the user has an existing pod
   Fix Spawner Status
   Capture Page Screenshot
+
+  # Due to an issue with ods-ci checking for downstream versions we need to
+  # check the box to "Start server in current tab" to since the automation is skipping the
+  # logic that handles the selection for showing JupyterLab in current vs new tab
+  # See https://github.com/red-hat-data-services/ods-ci/blob/1.20.0/tests/Resources/Page/ODH/JupyterHub/JupyterHubSpawner.robot#L201
+  Click Element  id:checkbox-notebook-browser-tab-preference
+
   Spawn Notebook With Arguments  image=jupyter-datascience-notebook
 
 Can Launch Python3 Smoke Test Notebook
@@ -47,7 +54,7 @@ Can Launch Python3 Smoke Test Notebook
   Stop JupyterLab Notebook Server
 
 # All of the keywords below are workarounds until official support for ODH automation is added to ods-ci
-#TODO: Update ods-ci to support ODH builds of dashbaord and it's components
+#TODO: Update ods-ci to support ODH builds of dashboard and associated components
 *** Keywords ***
 Wait for ODH Dashboard to Load
     [Arguments]  ${dashboard_title}="Open Data Hub"   ${odh_logo_xpath}=//img[@alt="Open Data Hub Logo"]

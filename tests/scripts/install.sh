@@ -75,6 +75,17 @@ if ! [ -z "${SKIP_KFDEF_INSTALL}" ]; then
   ## the KfDef creation
   echo "Relying on existing KfDef because SKIP_KFDEF_INSTALL was set"
 else
+
+
+  oc get crd odhdashboardconfigs.opendatahub.io
+  result=$?
+  # Apply ODH Dashboard CRDs if not applied
+  # In ODH 1.4.1, the CRDs will be bundled with the ODH operator install
+  if [ "$result" -ne 0 ]; then
+    echo "Deploying missing ODH Dashboard CRDs"
+    oc apply -k $HOME/peak/operator-tests/odh-manifests/resources/odh-dashboard/crd
+  fi
+
   echo "Creating the following KfDef"
   cat ./${KFDEF_FILENAME} > ${ARTIFACT_DIR}/${KFDEF_FILENAME}
   oc apply -f ./${KFDEF_FILENAME}
