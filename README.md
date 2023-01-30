@@ -22,6 +22,13 @@ Previous versions of ODH relied on [JupyterHub](jupyterhub/README.md) for managi
 
 Any components that were removed with the update to ODH 1.4 have been relocated to the [ODH Contrib](https://github.com/opendatahub-io-contrib) organization under the [odh-contrib-manifests](https://github.com/opendatahub-io-contrib/odh-contrib-manifests) repo.  You can reference the [odh-contrib kfdef](kfdef/odh-contrib.yaml) as a reference on how to deploy any of the odh-contrib-manifests components
 
+### Component Versions
+
+| Manifest Version | ODH Dashboard | ODH Notebook Controller | ODH Notebook Images | Data Science Pipelines | ModelMesh |
+| ---------------- | ------------- | ----------------------- | ------------------- |----------------------- | --------- |
+| v1.4.1 | v2.5.2 | v1.6 | v1.3.1 | v1.2.1 | v0.9.0 |
+| v1.4.0 | v2.2.1 | v1.6 | N/A | v1.2.1 | v0.9.0 |
+
 ## Deploy
 
 We are relying on [Kustomize v3](https://github.com/kubernetes-sigs/kustomize), [kfctl](https://github.com/kubeflow/kfctl) and [Open Data Hub Operator](https://github.com/opendatahub-io/opendatahub-operator/blob/master/operator.md) for deployment.
