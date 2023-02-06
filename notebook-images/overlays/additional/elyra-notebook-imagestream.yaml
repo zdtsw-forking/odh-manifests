@@ -4,7 +4,7 @@ metadata:
   labels:
     opendatahub.io/notebook-image: "true"
   annotations:
-    opendatahub.io/notebook-image-url: "https://github.com/thoth-station/s2i-lab-elyra"
+    opendatahub.io/notebook-image-url: "https://github.com/opendatahub-io/s2i-lab-elyra"
     opendatahub.io/notebook-image-name: "Elyra Notebook Image"
     opendatahub.io/notebook-image-desc: "Jupyter notebook image with Elyra-AI installed"
   name: s2i-lab-elyra
