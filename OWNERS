@@ -1,12 +1,10 @@
 # Each list is sorted alphabetically, additions should maintain that order
 approvers:
 - anishasthana
-- crobby
 - lavlas
 - VaishnaviHire
 
 reviewers:
 - anishasthana
-- crobby
 - lavlas
 - VaishnaviHire
