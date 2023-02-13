@@ -1,0 +1,4 @@
+checks:
+  ignorePaths:
+    - .github/
+    - tests/
