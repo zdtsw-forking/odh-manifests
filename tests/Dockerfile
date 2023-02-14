@@ -1,7 +1,5 @@
 FROM quay.io/centos/centos:stream8
 
-# List of chromedriver versions for download - https://chromedriver.chromium.org/downloads
-ARG CHROMEDRIVER_VER=110.0.5481.77
 ARG ORG=opendatahub-io
 ARG BRANCH=master
 ARG ODS_CI_REPO=https://github.com/red-hat-data-services/ods-ci
@@ -11,15 +9,12 @@ ARG OC_CLI_URL=https://mirror.openshift.com/pub/openshift-v4/amd64/clients/ocp/l
 ENV HOME /root
 WORKDIR /root
 
-RUN dnf install -y bc git go-toolset python3-pip python3-devel unzip && \
+RUN dnf -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm &&\
+    dnf install -y bc git go-toolset python3-pip python3-devel unzip chromium chromedriver && \
+    dnf clean all && \
     git clone https://github.com/crobby/peak $HOME/peak && \    
     cd $HOME/peak && \
     git submodule update --init
-
-RUN dnf -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm &&\
-    echo -e "[google-chrome]\nname=google-chrome\nbaseurl=http://dl.google.com/linux/chrome/rpm/stable/x86_64\nenabled=1\ngpgcheck=1\ngpgkey=https://dl.google.com/linux/linux_signing_key.pub" > /etc/yum.repos.d/google-chrome.repo &&\
-    dnf -y install "google-chrome-stable" &&\
-    dnf clean all
 
 # install jq to help with parsing json
 RUN curl -o /usr/local/bin/jq http://stedolan.github.io/jq/download/linux64/jq && \
@@ -37,10 +32,6 @@ RUN mkdir -p $HOME/src && \
 ADD ${OC_CLI_URL} $HOME/peak/oc-cli.tar.gz
 RUN tar -C /usr/local/bin -xvf $HOME/peak/oc-cli.tar.gz && \
     chmod +x /usr/local/bin/oc
-
-RUN curl -o /tmp/chromedriver_linux64.zip -L https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VER}/chromedriver_linux64.zip &&\
-    unzip /tmp/chromedriver_linux64.zip &&\
-    cp chromedriver /usr/local/bin/chromedriver
 
 COPY Pipfile Pipfile.lock $HOME/peak/
 
