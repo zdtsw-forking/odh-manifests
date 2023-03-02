@@ -10,7 +10,6 @@ commonLabels:
 
 bases:
   - ./argo-dashboards/
-  - ./jupyterhub-dashboards/
   - ./kafka-dashboards/
   - ./odh-notebook-controller-dashboards/
 

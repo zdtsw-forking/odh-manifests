@@ -43,7 +43,7 @@ only run the test that you specify instead of all of the tests.  example: `make 
 
 If you have a local instance already running the operator and you'd like to skip that part
 of the install process, you can set `SKIP_OPERATOR_INSTALL=true` and that will bypass installation
-of the operator, but will still install the authentication for the jupyterhub tests.
+of the operator, but will still install the authentication for any user tests.
 
 Without changes, the tests will install the ODH components in the `opendatahub` namespace. If your installation  
 is in a different namespace or you wish to deploy ODH in a different namespace, edit the following files.  

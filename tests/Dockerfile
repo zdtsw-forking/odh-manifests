@@ -23,7 +23,7 @@ RUN curl -o /usr/local/bin/jq http://stedolan.github.io/jq/download/linux64/jq &
 RUN mkdir -p $HOME/src && \
     cd $HOME/src && \
     git clone --depth=1 --branch ${BRANCH} https://github.com/${ORG}/odh-manifests && \
-    # Clone ods-ci repo at specified git ref for the JupyterHub webUI tests
+    # Clone ods-ci repo at specified git ref for the ODH Dashboard webUI tests
     git clone --depth=1 ${ODS_CI_REPO} ods-ci && cd ods-ci && \
     git fetch origin ${ODS_CI_GITREF} && git checkout FETCH_HEAD && \
     chmod -R 777 $HOME/src
