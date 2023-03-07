@@ -21,13 +21,24 @@ spec:
   selector:
     matchLabels:
       control-plane: modelmesh-controller
-  replicas: 1
+  replicas: 3
   template:
     metadata:
       labels:
         control-plane: modelmesh-controller
     spec:
       affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: control-plane
+                      operator: In
+                      values:
+                        - modelmesh-controller
+                topologyKey: topology.kubernetes.io/zone
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
@@ -41,7 +52,7 @@ spec:
             - /manager
           args:
             - --enable-leader-election
-          image: modelmesh-controller:replace
+          image: $(odh-modelmesh-controller)
           name: manager
           env:
             - name: POD_NAME
@@ -68,7 +79,7 @@ spec:
               memory: 96Mi
             limits:
               cpu: "1"
-              memory: 512Mi
+              memory: 2Gi
           volumeMounts:
             - mountPath: /etc/model-serving/config-defaults.yaml
               name: config-defaults
@@ -84,3 +95,18 @@ spec:
           configMap:
             defaultMode: 420
             name: model-serving-config-defaults
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    control-plane: modelmesh-controller
+  name: modelmesh-controller
+spec:
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP
+  selector:
+    control-plane: modelmesh-controller

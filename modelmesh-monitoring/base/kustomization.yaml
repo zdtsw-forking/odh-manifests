@@ -1,0 +1,27 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- prometheus
+- prometheus-operator
+- servicemonitors
+configMapGenerator:
+  - name: model-monitoring-parameters
+    envs:
+      - params.env
+configurations:
+  - params.yaml
+vars:
+  - name: deployment-namespace
+    objref:
+      kind: ConfigMap
+      name: model-monitoring-parameters
+      apiVersion: v1
+    fieldref:
+      fieldpath: metadata.namespace
+  - name: monitoring-namespace
+    objref:
+      kind: ConfigMap
+      name: model-monitoring-parameters
+      apiVersion: v1
+    fieldref:
+      fieldpath: data.monitoring-namespace

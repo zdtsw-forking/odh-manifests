@@ -2,13 +2,13 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  creationTimestamp: null
   name: manager-role
 rules:
 - apiGroups:
   - ""
   resources:
   - configmaps
+  - endpoints
   - namespaces
   - pods
   - secrets
@@ -82,11 +82,25 @@ rules:
   - update
   - watch
 - apiGroups:
+  - rbac.authorization.k8s.io
+  resources:
+  - clusterrolebindings
+  - rolebindings
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
   - route.openshift.io
   resources:
   - routes
   verbs:
   - create
+  - delete
   - get
   - list
   - patch
@@ -131,3 +145,38 @@ rules:
   - patch
   - update
   - watch
+
+# Needed to hand out Prometheus metrics access
+# to SA's in Namespaces containing Model Servers
+- apiGroups:
+    - ''
+  resources:
+    - services
+    - endpoints
+    - pods
+  verbs:
+    - get
+    - list
+    - watch
+- apiGroups:
+    - extensions
+  resources:
+    - ingresses
+  verbs:
+    - get
+    - list
+    - watch
+- apiGroups:
+    - networking.k8s.io
+  resources:
+    - ingresses
+  verbs:
+    - get
+    - list
+    - watch
+- apiGroups:
+    - ''
+  resources:
+    - configmaps
+  verbs:
+    - get

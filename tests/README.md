@@ -45,6 +45,13 @@ If you have a local instance already running the operator and you'd like to skip
 of the install process, you can set `SKIP_OPERATOR_INSTALL=true` and that will bypass installation
 of the operator, but will still install the authentication for the jupyterhub tests.
 
+Without changes, the tests will install the ODH components in the `opendatahub` namespace. If your installation  
+is in a different namespace or you wish to deploy ODH in a different namespace, edit the following files.  
+- In `tests/util` : `export ODHPROJECT=${ODHPROJECT:-"YOUR_DESIRED_NAMESPACE"}`
+- In `tests/setup/odh-core.yaml` : 
+  - change `model-mesh` parameter `monitoring-namespace` to your desired namespace  
+  - change `modelmesh-monitoring` parameter `deployment-namespace` to your desired namespace  
+
 For other possible configurations, you can look in the Makefile.  There are a set of
 variables at the top that you could change to meet the needs of your particular test run.
 

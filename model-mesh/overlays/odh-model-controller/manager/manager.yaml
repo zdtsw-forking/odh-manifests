@@ -33,7 +33,12 @@ spec:
         - /manager
         args:
         - --leader-elect
-        image: controller:latest
+        - '--monitoring-namespace'
+        - '$(MONITORING_NS)'
+        image: $(odh-model-controller)
+        env:
+          - name: MONITORING_NS
+            value: $(monitoring-namespace)
         name: manager
         imagePullPolicy: Always
         securityContext:
@@ -55,7 +60,7 @@ spec:
         resources:
           limits:
             cpu: 500m
-            memory: 128Mi
+            memory: 2Gi
           requests:
             cpu: 10m
             memory: 64Mi

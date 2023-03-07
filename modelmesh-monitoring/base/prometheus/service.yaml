@@ -1,0 +1,16 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: odh-model-monitoring
+  annotations:
+    service.alpha.openshift.io/serving-cert-secret-name: serving-prometheus-proxy-tls
+  labels:
+    prometheus: odh-model-monitoring
+spec:
+  ports:
+    - name: https
+      protocol: TCP
+      port: 443
+      targetPort: 8443
+  selector:
+    prometheus: odh-model-monitoring

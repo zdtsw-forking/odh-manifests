@@ -1,0 +1,51 @@
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+  labels:
+    prometheus: odh-model-monitoring
+  name: odh-model-monitoring
+spec:
+  serviceAccountName: prometheus-custom
+  listenLocal: true
+  containers:
+    - args:
+        - '-https-address=:8443'
+        - '-provider=openshift'
+        - '-openshift-service-account=prometheus-custom'
+        - '-upstream=http://localhost:9090'
+        - '-tls-cert=/etc/tls/private/tls.crt'
+        - '-tls-key=/etc/tls/private/tls.key'
+        - '--cookie-secret-file=/etc/oauth/config/cookie_secret'
+        - '--openshift-sar={"namespace": "$(DEPLOYMENT_NAMESPACE)", "resource": "services", "verb": "get"}' 
+        - '--openshift-delegate-urls={"/": {"namespace": "$(DEPLOYMENT_NAMESPACE)", "resource": "services", "verb": "get"}}' 
+        - '-skip-auth-regex=^/metrics'
+      image: 'registry.redhat.io/openshift4/ose-oauth-proxy@sha256:4bef31eb993feb6f1096b51b4876c65a6fb1f4401fee97fa4f4542b6b7c9bc46'
+      imagePullPolicy: Always
+      env:
+        - name: DEPLOYMENT_NAMESPACE
+          value: $(deployment-namespace)
+      name: oauth-proxy
+      ports:
+        - containerPort: 8443
+          name: https
+          protocol: TCP
+      volumeMounts:
+        - mountPath: /etc/tls/private
+          name: prometheus-tls
+        - mountPath: /etc/oauth/config
+          name: oauth-config
+  serviceMonitorSelector:
+    matchLabels:
+      modelmesh-service: modelmesh-serving
+  serviceMonitorNamespaceSelector:
+    matchExpressions:
+      - key: kubernetes.io/metadata.name
+        operator: Exists
+  volumes:
+    - name: prometheus-tls
+      secret:
+        secretName: serving-prometheus-proxy-tls
+    - name: oauth-config
+      secret:
+        secretName: odh-monitoring-oauth-config-generated
+  replicas: 3

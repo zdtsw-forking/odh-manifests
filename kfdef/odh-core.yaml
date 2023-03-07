@@ -45,12 +45,23 @@ spec:
         path: notebook-images
     name: notebook-images
   - kustomizeConfig:
+      parameters:
+      - name: monitoring-namespace
+        value: opendatahub
       overlays:
         - odh-model-controller
       repoRef:
         name: manifests
         path: model-mesh
     name: model-mesh
+  - kustomizeConfig:
+      parameters:
+      - name: deployment-namespace
+        value: opendatahub
+      repoRef:
+        name: manifests
+        path: modelmesh-monitoring
+    name: modelmesh-monitoring
   - kustomizeConfig:
       overlays:
         - metadata-store-mariadb

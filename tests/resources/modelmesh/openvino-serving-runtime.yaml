@@ -14,6 +14,9 @@
 apiVersion: serving.kserve.io/v1alpha1
 kind: ServingRuntime
 metadata:
+  annotations:
+    enable-route: "true"
+    enable-auth: "true"
   name: ovms-1.x
   labels:
     name: modelmesh-serving-ovms-1.x-SR
@@ -24,6 +27,7 @@ spec:
       autoSelect: true
     - name: onnx
       version: "1"
+      autoSelect: true
 
   protocolVersions:
     - grpc-v1
@@ -34,7 +38,7 @@ spec:
 
   containers:
     - name: ovms
-      image: $(odh-openvino)
+      image: quay.io/opendatahub/openvino_model_server:2022.3-gpu
       args:
         - --port=8001
         - --rest_port=8888

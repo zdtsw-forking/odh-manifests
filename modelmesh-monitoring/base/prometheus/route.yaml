@@ -1,0 +1,15 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: odh-model-monitoring
+  labels:
+    prometheus: odh-model-monitoring
+spec:
+  to:
+    kind: Service
+    name: odh-model-monitoring
+  port:
+    targetPort: https
+  tls:
+    termination: reencrypt
+    insecureEdgeTerminationPolicy: Redirect

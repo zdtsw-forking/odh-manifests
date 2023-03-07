@@ -1,0 +1,7 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- clusterrole_odh-namespace-read.yaml
+- clusterrolebinding_odh-model-monitoring.yaml
+- clusterrole_prometheus-k8s.yaml
+- clusterrole_prometheus_token_access.yaml
