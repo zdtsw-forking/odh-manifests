@@ -101,7 +101,7 @@ You can run tests individually by passing a substring to run.sh to match:
 
 # Basic test
 
-These tests are in the basictests directory.  This set of tests assumes that you have opendatahub (Kubeflow-based) isntalled.  It then goes through each module and tests
+These tests are in the basictests directory.  This set of tests assumes that you have opendatahub (Kubeflow-based) installed.  It then goes through each module and tests
 to be sure that the expected pods are all in the running state.  This is meant to be the barebones basic smoke tests for an installation.
 The steps to run this test are:
 
