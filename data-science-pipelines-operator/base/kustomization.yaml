@@ -76,4 +76,4 @@ configurations:
 images:
   - name: controller
     newName: quay.io/opendatahub/data-science-pipelines-operator
-    newTag: main
+    newTag: v0.1.0
