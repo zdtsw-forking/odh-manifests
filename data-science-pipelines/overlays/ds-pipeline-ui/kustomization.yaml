@@ -35,3 +35,15 @@ images:
   - name: frontend
     newName: quay.io/internaldatahub/frontend
     newTag: 1.1.0
+
+vars:
+- name: namespace
+  objref:
+    kind: Deployment
+    name: ds-pipeline-ui
+    apiVersion: apps/v1
+  fieldref:
+    fieldpath: metadata.namespace
+
+configurations:
+  - params.yaml
