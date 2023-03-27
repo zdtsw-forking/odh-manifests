@@ -3,3 +3,7 @@ kind: Kustomization
 
 bases:
   - ../servicemonitors
+
+resources:
+  - prometheus-monitoring-role-binding.yaml
+  - prometheus.yaml
