@@ -57,7 +57,7 @@ Can Launch Python3 Smoke Test Notebook
 #TODO: Update ods-ci to support ODH builds of dashboard and associated components
 *** Keywords ***
 Wait for ODH Dashboard to Load
-    [Arguments]  ${dashboard_title}="Open Data Hub"   ${odh_logo_xpath}=//img[@alt="Open Data Hub Logo"]
+    [Arguments]  ${dashboard_title}="${ODH_DASHBOARD_PROJECT_NAME}"   ${odh_logo_xpath}=//img[@alt="${ODH_DASHBOARD_PROJECT_NAME} Logo"]
     Wait For Condition    return document.title == ${dashboard_title}    timeout=15s
     Wait Until Page Contains Element    xpath:${odh_logo_xpath}    timeout=15s
 
@@ -74,17 +74,16 @@ Begin ODH Web Test
     Login To RHODS Dashboard  ${TEST_USER.USERNAME}  ${TEST_USER.PASSWORD}  ${TEST_USER.AUTH_TYPE}
     ${authorization_required} =  Is Service Account Authorization Required
     Run Keyword If  ${authorization_required}  Authorize jupyterhub service account
-    Wait for ODH Dashboard to Load
+    Wait for RHODS Dashboard to Load
 
     # Workaround for issues when the dashboard reports "No Components Found" on the initial load
     Wait Until Element Is Not Visible  xpath://h5[.="No Components Found"]   120seconds
-    Wait Until Element Is Visible   xpath://div[@class="pf-c-card__title" and .="Jupyter"]/../div[contains(@class,"pf-c-card__footer")]/a   120seconds
+    Wait Until Element Is Visible   xpath://div[contains(@class,"pf-c-card") and @data-id="jupyter"]/div[contains(@class,"pf-c-card__footer")]/a   120seconds
 
     Launch Jupyter From RHODS Dashboard Link
     Login To Jupyterhub  ${TEST_USER.USERNAME}  ${TEST_USER.PASSWORD}  ${TEST_USER.AUTH_TYPE}
     Fix Spawner Status
     Go To  ${ODH_DASHBOARD_URL}
-
 
 Verify Notebook Name And Image Tag
     [Documentation]    Verifies that expected notebook is spawned and image tag is not latest

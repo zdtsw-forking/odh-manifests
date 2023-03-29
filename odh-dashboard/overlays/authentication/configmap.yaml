@@ -1,7 +1,0 @@
-# Enables the Jupyter Spawner UI for the notebook-controller
-kind: ConfigMap
-apiVersion: v1
-metadata:
-  name: odh-dashboard-overlay-authentication-deprecated
-data:
-  MESSAGE: "YOU CAN SAFELY REMOVE THE AUTHENTICATION OVERLAY FROM THE ODH-DASHBOARD KUSTOMIZECONFIG IN THE KFDEF"

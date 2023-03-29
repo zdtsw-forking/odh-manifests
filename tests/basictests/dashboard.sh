@@ -61,10 +61,11 @@ function test_odh_dashboard_ui() {
     header "Running ODS-CI automation"
 
     os::cmd::expect_success "oc project ${ODHPROJECT}"
-    pushd ${HOME}/src/ods-ci
+    # Navigate to the base directory where we will run the ods-ci test script
+    pushd ${HOME}/src/ods-ci/ods_ci
     #TODO: Add a test that will iterate over all of the notebook using the notebooks in https://github.com/opendatahub-io/testing-notebooks
     # Execute the ods-ci robotframework automation to verify that we can spawn a notebook
-    os::cmd::expect_success "run_robot_test.sh --skip-oclogin true --test-artifact-dir ${ARTIFACT_DIR} \
+    os::cmd::expect_success "run_robot_test.sh --skip-install --skip-oclogin true --test-artifact-dir ${ARTIFACT_DIR} \
       --test-case ${MY_DIR}/../resources/ods-ci/test-odh-dashboard-jupyterlab-notebook.robot \
       --test-variables-file ${MY_DIR}/../resources/ods-ci/test-variables.yml \
       --test-variable 'ODH_DASHBOARD_URL:${ODH_DASHBOARD_URL}' \
