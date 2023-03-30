@@ -23,9 +23,11 @@ echo `oc version`
 if [ -z "${SKIP_INSTALL}" ]; then
     # This is needed to avoid `oc status` failing inside openshift-ci
     oc new-project ${ODHPROJECT}
+    oc project ${ODHPROJECT} # in case a new project is not created
     $HOME/peak/install.sh
     echo "Sleeping for 5 min to let the KfDef install settle"
     sleep 5m
+
     # Save the list of events and pods that are running prior to the test run
     oc get events --sort-by='{.lastTimestamp}' > ${ARTIFACT_DIR}/pretest-${ODHPROJECT}.events.txt
     oc get pods -o yaml -n ${ODHPROJECT} > ${ARTIFACT_DIR}/pretest-${ODHPROJECT}.pods.yaml

@@ -14,6 +14,7 @@
 # These are the system defaults which users can override with a user config
 podsPerRuntime: 2
 headlessService: true
+payloadProcessors: ""
 modelMeshImage:
   name: $(odh-modelmesh)
 modelMeshResources:
