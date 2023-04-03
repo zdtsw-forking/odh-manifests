@@ -4,7 +4,7 @@ metadata:
   labels:
     opendatahub.io/notebook-image: "true"
   annotations:
-    opendatahub.io/notebook-image-url: "https://github.com/opendatahub-io/notebooks/blob/main/jupyter/pytorch/ubi8-python-3.8"
+    opendatahub.io/notebook-image-url: "https://github.com/opendatahub-io/notebooks/blob/main/jupyter/pytorch"
     opendatahub.io/notebook-image-name: "PyTorch"
     opendatahub.io/notebook-image-desc: "Jupyter notebook image with PyTorch libraries and dependencies to start experimenting with advanced AI/ML notebooks."
     opendatahub.io/notebook-image-order: "4"
@@ -13,6 +13,19 @@ spec:
   lookupPolicy:
     local: true
   tags:
+  # N Version of the image
+  - annotations:
+      opendatahub.io/notebook-software: '[{"name":"Python","version":"v3.9"},{"name":"PyTorch","version":"1.13"}]'
+      opendatahub.io/notebook-python-dependencies: '[{"name":"PyTorch","version":"1.13"},{"name":"Tensorboard","version":"2.11"},{"name":"Boto3","version":"1.26"},{"name":"Kafka-Python","version":"2.0"},{"name":"Matplotlib","version":"3.6"},{"name":"Numpy","version":"1.24"},{"name":"Pandas","version":"1.5"},{"name":"Scikit-learn","version":"1.2"},{"name":"Scipy","version":"1.10"}]'
+      openshift.io/imported-from: quay.io/opendatahub/workbench-images
+      opendatahub.io/workbench-image-recommended: 'true'
+    from:
+      kind: DockerImage
+      name: quay.io/opendatahub/workbench-images:jupyter-pytorch-ubi9-python-3.9-2023a-weekly
+    name: "py3.9-v2"
+    referencePolicy:
+      type: Local
+  # N-1 Version of the image
   - annotations:
         opendatahub.io/notebook-software: '[{"name":"Python","version":"v3.8"},{"name":"PyTorch","version":"1.8"}]'
         opendatahub.io/notebook-python-dependencies: '[{"name":"PyTorch","version":"1.8"},{"name":"Tensorboard","version":"2.6"},{"name":"Boto3","version":"1.17"},{"name":"Kafka-Python","version":"2.0"},{"name":"Matplotlib","version":"3.4"},{"name":"Numpy","version":"1.19"},{"name":"Pandas","version":"1.2"},{"name":"Scikit-learn","version":"0.24"},{"name":"Scipy","version":"1.6"}]'
