@@ -3,7 +3,6 @@ kind: Kustomization
 resources:
 - prometheus
 - prometheus-operator
-- servicemonitors
 configMapGenerator:
   - name: model-monitoring-parameters
     envs:
