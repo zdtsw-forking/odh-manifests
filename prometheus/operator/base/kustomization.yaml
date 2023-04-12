@@ -4,10 +4,7 @@ kind: Kustomization
 resources:
 - cluster-monitoring-role.yaml
 - cluster-monitoring-role-binding.yaml
-- prometheus.yaml
 - route.yaml
-- prometheus-monitoring-role.yaml
-- prometheus-monitoring-role-binding.yaml
 - secrets
 
 namespace: opendatahub
