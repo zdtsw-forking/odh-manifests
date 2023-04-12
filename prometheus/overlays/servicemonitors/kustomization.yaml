@@ -3,3 +3,9 @@ kind: Kustomization
 
 bases:
   - ../../base
+
+resources:
+  - application-service-monitor.yaml
+  - cluster-metrics-servicemonitor.yaml
+  - kafka-podmonitors.yaml
+  - operator-service-monitor.yaml
