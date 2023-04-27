@@ -51,6 +51,9 @@ while [[ $retry -gt 0 ]]; do
 done
 
 popd
+## Install CodFlare Operator
+echo "Installing CodeFlare operator"
+oc apply -f $HOME/peak/operator-tests/odh-manifests/resources/codeflare-stack/codeflare-subscription.yaml
 ## Grabbing and applying the patch in the PR we are testing
 pushd ~/src/odh-manifests
 if [ -z "$PULL_NUMBER" ]; then

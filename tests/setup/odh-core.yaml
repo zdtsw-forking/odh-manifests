@@ -3,6 +3,7 @@ apiVersion: kfdef.apps.kubeflow.org/v1
 kind: KfDef
 metadata:
   name: odh-core
+  namespace: opendatahub
 spec:
   applications:
   - kustomizeConfig:
@@ -73,6 +74,16 @@ spec:
         name: manifests
         path: data-science-pipelines-operator/
     name: data-science-pipelines-operator
+  - kustomizeConfig:
+      repoRef:
+        name: manifests
+        path: codeflare-stack
+    name: codeflare-stack
+  - kustomizeConfig:
+      repoRef:
+        name: manifests
+        path: ray/operator
+    name: ray-operator
   repos:
   - name: manifests
     uri: https://github.com/opendatahub-io/odh-manifests/tarball/master
