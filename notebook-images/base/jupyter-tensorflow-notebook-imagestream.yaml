@@ -22,7 +22,7 @@ spec:
     from:
       kind: DockerImage
       name: quay.io/opendatahub/workbench-images:cuda-jupyter-tensorflow-ubi9-python-3.9-2023a-weekly
-    name: "py3.9-v2"
+    name: "2023.1-cuda-11.8"
     referencePolicy:
       type: Local
   # N-1 Version of the image
@@ -33,6 +33,6 @@ spec:
     from:
       kind: DockerImage
       name: quay.io/opendatahub/notebooks@sha256:fc52e4fbc8c1c70dfa22dbfe6b0353f5165c507c125df4438fca6a3f31fe976e
-    name: "py3.8-v1"
+    name: "1.2-cuda-11.4"
     referencePolicy:
       type: Local
