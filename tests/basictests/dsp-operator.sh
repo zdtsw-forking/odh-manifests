@@ -31,9 +31,9 @@ function create_and_verify_data_science_pipelines_resources() {
     os::cmd::expect_success "oc apply -n ${DSPAPROJECT} -f ${RESOURCEDIR}/test-dspo-cr.yaml"
     os::cmd::try_until_text "oc get crd -n ${DSPAPROJECT} datasciencepipelinesapplications.datasciencepipelinesapplications.opendatahub.io" "datasciencepipelinesapplications.datasciencepipelinesapplications.opendatahub.io" $odhdefaulttimeout $odhdefaultinterval
     os::cmd::try_until_text "oc -n ${DSPAPROJECT} get pods -l app=ds-pipeline-sample -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}'" "True" $odhdefaulttimeout $odhdefaultinterval
-    running_pods=$(oc get pods -n ${DSPAPROJECT} -l component=data-science-pipelines --field-selector='status.phase=Running' -o jsonpath='{$.items[*].metadata.name}' | wc -w)
     echo "Sleeping for 5 minutes for the DSPO CR settle up "
     sleep 5m
+    running_pods=$(oc get pods -n ${DSPAPROJECT} -l component=data-science-pipelines --field-selector='status.phase=Running' -o jsonpath='{$.items[*].metadata.name}' | wc -w)
     os::cmd::expect_success "if [ "$running_pods" -gt "0" ]; then exit 0; else exit 1; fi"
 }
 
@@ -114,11 +114,13 @@ function create_experiment() {
       }
 EOF
         ) | jq -r .id)
+
   os::cmd::try_until_not_text "curl -s -k -H 'Authorization: Bearer ${SA_TOKEN}' https://${ROUTE}/apis/v1beta1/experiments/${EXPERIMENT_ID} | jq" "null" $odhdefaulttimeout $odhdefaultinterval
 }
 
 function verify_experiment_availabilty() {
   header "Verify experiment exists"
+
   os::cmd::try_until_text "curl -s -k -H 'Authorization: Bearer ${SA_TOKEN}' https://${ROUTE}/apis/v1beta1/experiments | jq '.total_size'" "2" $odhdefaulttimeout $odhdefaultinterval
 }
 
@@ -138,11 +140,12 @@ function create_run() {
 EOF
         ) | jq -r .run.id)
 
-    os::cmd::try_until_not_text "curl -s -k -H 'Authorization: Bearer ${SA_TOKEN}' https://${ROUTE}/apis/v1beta1/runs/${RUN_ID} | jq '" "null" $odhdefaulttimeout $odhdefaultinterval
+    os::cmd::try_until_not_text "curl -s -k -H 'Authorization: Bearer ${SA_TOKEN}' https://${ROUTE}/apis/v1beta1/runs/${RUN_ID} | jq .run.status" "null" $odhdefaulttimeout $odhdefaultinterval
 }
 
 function create_experiment_run() {
     header "Creating a run that uses the test experiment"
+
     RUN_ID_EXPT=$((curl -k -H "Authorization: Bearer ${SA_TOKEN}" \
         -H "Content-Type: application/json" \
         -X POST "https://${ROUTE}/apis/v1beta1/runs" \
@@ -166,7 +169,8 @@ function create_experiment_run() {
         }
 EOF
         ) | jq -r .run.id)
-    os::cmd::try_until_not_text "curl -s -k -H 'Authorization: Bearer ${SA_TOKEN}' https://${ROUTE}/apis/v1beta1/runs/${RUN_ID_EXPT} | jq '" "null" $odhdefaulttimeout $odhdefaultinterval
+
+    os::cmd::try_until_not_text "curl -s -k -H 'Authorization: Bearer ${SA_TOKEN}' https://${ROUTE}/apis/v1beta1/runs/${RUN_ID_EXPT} | jq .run.status " "null" $odhdefaulttimeout $odhdefaultinterval
 }
 
 function verify_run_availabilty() {
@@ -184,6 +188,7 @@ function check_run_status() {
 
 function delete_experiment() {
   header "Deleting the experiment"
+
   os::cmd::try_until_text "curl -s -k -H 'Authorization: Bearer ${SA_TOKEN}' -X DELETE https://${ROUTE}/apis/v1beta1/experiments/${EXPERIMENT_ID} | jq" "" $odhdefaulttimeout $odhdefaultinterval
   os::cmd::try_until_text "curl -s -k -H 'Authorization: Bearer ${SA_TOKEN}' https://${ROUTE}/apis/v1beta1/experiments/${EXPERIMENT_ID} | jq '.code'" "5" $odhdefaulttimeout $odhdefaultinterval
 }
@@ -201,6 +206,44 @@ function delete_pipeline() {
     header "Deleting the pipeline"
 
     os::cmd::try_until_text "curl -s -k -H 'Authorization: Bearer ${SA_TOKEN}' -X DELETE https://${ROUTE}/apis/v1beta1/pipelines/${PIPELINE_ID} | jq" "" $odhdefaulttimeout $odhdefaultinterval
+}
+
+function create_recurring_run() {
+    header "Creating the Recurring Run from uploaded pipeline"
+
+    JOB_ID=$((curl -k -H "Authorization: Bearer ${SA_TOKEN}" \
+        -H "Content-Type: application/json" \
+        -X POST "https://${ROUTE}/apis/v1beta1/jobs" \
+        -d @- << EOF
+        {
+            "name":"test-recurring-run",
+            "pipeline_spec":{
+                "pipeline_id":"${PIPELINE_ID}"
+            },
+            "max_concurrency": 10,
+            "trigger": {
+                "periodic_schedule": {
+                    "interval_second": 3600
+                }
+            },
+            "enabled": true
+        }
+EOF
+        ) | jq -r .id)
+
+    os::cmd::try_until_not_text "curl -s -k -H 'Authorization: Bearer ${SA_TOKEN}' https://${ROUTE}/apis/v1beta1/jobs/${JOB_ID} | jq .status " "null" $odhdefaulttimeout $odhdefaultinterval
+}
+
+function verify_recurring_run_availabilty() {
+    header "verify the Recurring Run exists"
+
+    os::cmd::try_until_text "curl -s -k -H 'Authorization: Bearer ${SA_TOKEN}' https://${ROUTE}/apis/v1beta1/jobs | jq '.total_size'" "1" $odhdefaulttimeout $odhdefaultinterval
+}
+
+function delete_recurring_run() {
+    header "Deleting the Recurring Run"
+
+    os::cmd::try_until_text "curl -s -k -H 'Authorization: Bearer ${SA_TOKEN}' -X DELETE https://${ROUTE}/apis/v1beta1/jobs/${PIPELINE_ID} | jq" "" $odhdefaulttimeout $odhdefaultinterval
 }
 
 
@@ -223,6 +266,9 @@ verify_run_availabilty
 check_run_status
 delete_runs
 delete_experiment
+create_recurring_run
+verify_recurring_run_availabilty
+delete_recurring_run
 delete_pipeline
 
 os::test::junit::declare_suite_end
