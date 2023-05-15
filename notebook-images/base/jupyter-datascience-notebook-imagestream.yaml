@@ -13,26 +13,26 @@ spec:
   lookupPolicy:
     local: true
   tags:
-  # N Version of the image
-  - annotations:
-      opendatahub.io/notebook-software: '[{"name":"Python","version":"v3.9"}]'
-      opendatahub.io/notebook-python-dependencies: '[{"name":"Boto3","version":"1.26"},{"name":"Kafka-Python","version":"2.0"},{"name":"Kfp-tekton","version":"1.5"},{"name":"Matplotlib","version":"3.6"},{"name":"Numpy","version":"1.24"},{"name":"Pandas","version":"1.5"},{"name":"Scikit-learn","version":"1.2"},{"name":"Scipy","version":"1.10"}]'
-      openshift.io/imported-from: quay.io/opendatahub/workbench-images
-      opendatahub.io/workbench-image-recommended: 'true'
-    from:
-      kind: DockerImage
-      name: quay.io/opendatahub/workbench-images:jupyter-datascience-ubi9-python-3.9-2023a-weekly
-    name: "2023.1"
-    referencePolicy:
-      type: Local
-  # N-1 Version of the image
-  - annotations:
-      opendatahub.io/notebook-software: '[{"name":"Python","version":"v3.8"}]'
-      opendatahub.io/notebook-python-dependencies: '[{"name":"Boto3","version":"1.17"},{"name":"Kafka-Python","version":"2.0"},{"name":"Matplotlib","version":"3.4"},{"name":"Numpy","version":"1.19"},{"name":"Pandas","version":"1.2"},{"name":"Scikit-learn","version":"0.24"},{"name":"Scipy","version":"1.6"}]'
-      openshift.io/imported-from: quay.io/opendatahub/notebooks
-    from:
-      kind: DockerImage
-      name: quay.io/opendatahub/notebooks@sha256:5df71f5542d2e0161f0f4342aa9a390679d72dc6fae192fd8da1e5671b27e8d4
-    name: "1.2"
-    referencePolicy:
-      type: Local
+    # N Version of the image
+    - annotations:
+        opendatahub.io/notebook-software: '[{"name":"Python","version":"v3.9"}]'
+        opendatahub.io/notebook-python-dependencies: '[{"name":"Boto3","version":"1.26"},{"name":"Kafka-Python","version":"2.0"},{"name":"Kfp-tekton","version":"1.5"},{"name":"Matplotlib","version":"3.6"},{"name":"Numpy","version":"1.24"},{"name":"Pandas","version":"1.5"},{"name":"Scikit-learn","version":"1.2"},{"name":"Scipy","version":"1.10"}]'
+        openshift.io/imported-from: quay.io/opendatahub/workbench-images
+        opendatahub.io/workbench-image-recommended: 'true'
+      from:
+        kind: DockerImage
+        name: quay.io/opendatahub/workbench-images@sha256:b790901742934dddb3c2368af5ff95f1288615c1c5027ca000441c35ed656115
+      name: "2023.1"
+      referencePolicy:
+        type: Local
+    # N-1 Version of the image
+    - annotations:
+        opendatahub.io/notebook-software: '[{"name":"Python","version":"v3.8"}]'
+        opendatahub.io/notebook-python-dependencies: '[{"name":"Boto3","version":"1.17"},{"name":"Kafka-Python","version":"2.0"},{"name":"Matplotlib","version":"3.4"},{"name":"Numpy","version":"1.19"},{"name":"Pandas","version":"1.2"},{"name":"Scikit-learn","version":"0.24"},{"name":"Scipy","version":"1.6"}]'
+        openshift.io/imported-from: quay.io/opendatahub/notebooks
+      from:
+        kind: DockerImage
+        name: quay.io/opendatahub/notebooks@sha256:5df71f5542d2e0161f0f4342aa9a390679d72dc6fae192fd8da1e5671b27e8d4
+      name: "1.2"
+      referencePolicy:
+        type: Local
