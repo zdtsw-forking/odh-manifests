@@ -21,7 +21,7 @@ spec:
         opendatahub.io/workbench-image-recommended: 'true'
       from:
         kind: DockerImage
-        name: quay.io/opendatahub/workbench-images@sha256:b790901742934dddb3c2368af5ff95f1288615c1c5027ca000441c35ed656115
+        name: quay.io/opendatahub/workbench-images@sha256:3fb97b0ee191af63be8398f5b62caa632b11c52baf8475799ca886d2dbc870d4
       name: "2023.1"
       referencePolicy:
         type: Local
