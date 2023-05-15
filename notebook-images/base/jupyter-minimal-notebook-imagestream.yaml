@@ -13,27 +13,27 @@ spec:
   lookupPolicy:
     local: true
   tags:
-  # N Version of the image
-  - annotations:
-      opendatahub.io/notebook-software: '[{"name":"Python","version":"v3.9"}]'
-      opendatahub.io/notebook-python-dependencies: '[{"name":"JupyterLab","version": "3.5"}, {"name": "Notebook","version": "6.5"}]'
-      openshift.io/imported-from: quay.io/opendatahub/workbench-images
-      opendatahub.io/workbench-image-recommended: 'true'
-      opendatahub.io/default-image: "true"
-    from:
-      kind: DockerImage
-      name: quay.io/opendatahub/workbench-images:jupyter-minimal-ubi9-python-3.9-2023a-weekly
-    name: "2023.1"
-    referencePolicy:
-      type: Local
-  # N-1 Version of the image
-  - annotations:
-      opendatahub.io/notebook-software: '[{"name":"Python","version":"v3.8"}]'
-      opendatahub.io/notebook-python-dependencies: '[{"name":"JupyterLab","version": "3.2"}, {"name": "Notebook","version": "6.4"}]'
-      openshift.io/imported-from: quay.io/opendatahub/notebooks
-    from:
-      kind: DockerImage
-      name: quay.io/opendatahub/notebooks@sha256:a138838e1c9acd7708462e420bf939e03296b97e9cf6c0aa0fd9a5d20361ab75
-    name: "1.2"
-    referencePolicy:
-      type: Local
+    # N Version of the image
+    - annotations:
+        opendatahub.io/notebook-software: '[{"name":"Python","version":"v3.9"}]'
+        opendatahub.io/notebook-python-dependencies: '[{"name":"JupyterLab","version": "3.5"}, {"name": "Notebook","version": "6.5"}]'
+        openshift.io/imported-from: quay.io/opendatahub/workbench-images
+        opendatahub.io/workbench-image-recommended: 'true'
+        opendatahub.io/default-image: "true"
+      from:
+        kind: DockerImage
+        name: quay.io/opendatahub/workbench-images@sha256:b790901742934dddb3c2368af5ff95f1288615c1c5027ca000441c35ed656115
+      name: "2023.1"
+      referencePolicy:
+        type: Local
+    # N-1 Version of the image
+    - annotations:
+        opendatahub.io/notebook-software: '[{"name":"Python","version":"v3.8"}]'
+        opendatahub.io/notebook-python-dependencies: '[{"name":"JupyterLab","version": "3.2"}, {"name": "Notebook","version": "6.4"}]'
+        openshift.io/imported-from: quay.io/opendatahub/notebooks
+      from:
+        kind: DockerImage
+        name: quay.io/opendatahub/notebooks@sha256:a138838e1c9acd7708462e420bf939e03296b97e9cf6c0aa0fd9a5d20361ab75
+      name: "1.2"
+      referencePolicy:
+        type: Local
