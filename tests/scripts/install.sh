@@ -53,7 +53,12 @@ done
 popd
 ## Install CodFlare Operator
 echo "Installing CodeFlare operator"
+oc new-project codeflare-operator-system
 oc apply -f $HOME/peak/operator-tests/odh-manifests/resources/codeflare-stack/codeflare-subscription.yaml
+oc apply -f $HOME/peak/operator-tests/odh-manifests/resources/codeflare-stack/codeflare-operator-system-dependencies.yaml
+sleep 15
+# We need to manually approve the install plan for the CodeFlare operator as we want to use a tagged version of the operator
+oc patch installplan $(oc get installplans -n codeflare-operator-system -o jsonpath='{.items[?(@.metadata.ownerReferences[0].name=="codeflare-operator")].metadata.name}') -n codeflare-operator-system --type merge -p '{"spec":{"approved":true}}'
 ## Grabbing and applying the patch in the PR we are testing
 pushd ~/src/odh-manifests
 if [ -z "$PULL_NUMBER" ]; then
