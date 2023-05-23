@@ -23,7 +23,7 @@ Any components that were removed with the update to ODH 1.4 have been relocated 
 
 | Manifest Version | ODH Dashboard | ODH Notebook Controller | ODH Notebook Images | Data Science Pipelines | ModelMesh |
 | ---------------- | ------------- | ----------------------- | ------------------- |----------------------- | --------- |
-| master | v2.8.0 | v1.6 | v1.3.1 | v1.2.1 | v0.9.0 |
+| master | v2.9.3 | v1.6 | v1.3.1 | v1.2.1 | v0.9.0 |
 | v1.4.1 | v2.5.2 | v1.6 | v1.3.1 | v1.2.1 | v0.9.0 |
 | v1.4.0 | v2.2.1 | v1.6 | N/A | v1.2.1 | v0.9.0 |
 
