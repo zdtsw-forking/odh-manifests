@@ -19,7 +19,7 @@ spec:
       openshift.io/imported-from: quay.io/opendatahub/workbench-images
     from:
       kind: DockerImage
-      name: quay.io/opendatahub/workbench-images@sha256:81dfec8f640b9f4864da0ce822e198c058cdb72e7d99b83dac1bbb2a3ec7828d
+      name: quay.io/opendatahub/workbench-images@sha256:efc708b7d0decab7933a693617720d171b6b774cb0a9455b027a7df51d1e5640
     name: "2023.1"
     referencePolicy:
       type: Local

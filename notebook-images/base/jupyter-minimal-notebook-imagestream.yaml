@@ -22,7 +22,7 @@ spec:
         opendatahub.io/default-image: "true"
       from:
         kind: DockerImage
-        name: quay.io/opendatahub/workbench-images@sha256:be80a45577c0ceb5b81122c4039e61bd37a2429a9d274a2b6fbe660ad60a6323
+        name: quay.io/opendatahub/workbench-images@sha256:48598902ae19e4e8ac8b4915b160893a430a7507608651c9143e185f5d282ca3
       name: "2023.1"
       referencePolicy:
         type: Local
