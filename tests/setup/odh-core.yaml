@@ -50,8 +50,6 @@ spec:
       parameters:
       - name: monitoring-namespace
         value: opendatahub
-      overlays:
-        - odh-model-controller
       repoRef:
         name: manifests
         path: model-mesh
