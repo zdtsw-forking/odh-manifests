@@ -17,7 +17,9 @@ To get started you will first need to satisfy the following pre-requisites:
 ## Pre-requisites
 1. An OpenShift cluster that is 4.9 or higher.
 2. You will need to be logged into this cluster as [cluster admin] via [oc client].
-3. The OpenShift Cluster must have OpenShift Pipelines 1.7.2 or higher installed. Instructions [here][OCP Pipelines Operator].
+3. The OpenShift Cluster must have OpenShift Pipelines 1.8 or higher installed. We recommend channel pipelines-1.8 
+   on OCP 4.10 and pipelines-1.9 or pipelines-1.10 for OCP 4.11, 4.12 and 4.13.
+   Instructions [here][OCP Pipelines Operator].
 4. The Open Data Hub operator needs to be installed. You can install it via [OperatorHub][installodh].
 
 ## Deploy the Operator via ODH
