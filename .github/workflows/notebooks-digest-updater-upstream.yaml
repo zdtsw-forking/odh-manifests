@@ -1,11 +1,19 @@
-# The aim of this GitHub workflow is to update the .spec.tags[0].from.name field of each Notebook's ImageStreams into Digest format, when cut off a new release (The odh-manifest release branch should exist). 
-# The format of the digest that would be assing has the following format: quay.io/opendatahub/workbench-images@sha256:xxx...xxx
+# The aim of this GitHub workflow is to update the params.env file with the latest digest.
 on:
   workflow_dispatch:
     inputs:
       branch:
         required: true
-        description: "Provide release branch"
+        description: "Provide the name of the branch you want to update ex master, vx.xx etc"
+      release-n:
+        required: true
+        description: "Provide release N version of the notebooks ex 2023a"
+  schedule:
+    - cron: "0 0 * * 5" #Scheduled every Friday
+env:
+  DIGEST_UPDATER_BRANCH: digest-updater-${{ github.run_id }}
+  BRANCH_NAME: ${{ github.event.inputs.branch || 'master' }}
+  RELEASE_VERSION: ${{ github.event.inputs.release-n || '2023a' }}
 jobs:
   initialize:
     runs-on: ubuntu-latest
@@ -17,30 +25,25 @@ jobs:
         run: |
           sudo apt-get -y update
           sudo apt-get -y install skopeo
-      
-      # Checkout the release branch 
+
+      # Checkout the release branch
       - name: Checkout release branch
         uses: actions/checkout@v3
         with:
-          ref:  ${{ inputs.branch }}
+          ref: ${{ env.BRANCH_NAME }}
 
       # Create a new branch
       - name: Create a new branch
         run: |
-         git checkout -b notebooks-digest-updater
-         git push --set-upstream origin notebooks-digest-updater
-  
+         echo ${{ env.DIGEST_UPDATER_BRANCH }}
+         git checkout -b ${{ env.DIGEST_UPDATER_BRANCH }}
+         git push --set-upstream origin ${{ env.DIGEST_UPDATER_BRANCH }}
 
   update-n-version:
     needs: [ initialize ]
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    strategy:
-      max-parallel: 1
-      matrix:
-        files: [ "notebook-images/base/jupyter-minimal-notebook-imagestream.yaml", "notebook-images/base/jupyter-datascience-notebook-imagestream.yaml", "notebook-images/base/jupyter-minimal-gpu-notebook-imagestream.yaml" , "notebook-images/base/jupyter-pytorch-notebook-imagestream.yaml","notebook-images/base/jupyter-tensorflow-notebook-imagestream.yaml" ]
-
     steps:
       - name: Configure Git
         run: |
@@ -52,54 +55,36 @@ jobs:
         uses: actions/checkout@v3
         with:
          repository: opendatahub-io/notebooks.git
-         ref: 2023a
+         ref: ${{ env.RELEASE_VERSION }}
       - name: Retrive latest weekly commit hash from the release branch
         id: hash
         shell: bash
         run: |
           echo "HASH=$(git rev-parse --short HEAD)" >> ${GITHUB_OUTPUT}
 
-      - name: Checkout master from the odh-manifest repo
-        uses: actions/checkout@v3
-        with:
-          ref: master
-
-      - name: Fetch Name Image from Main Branch Image Stream (Step 1)
-        shell: bash
-        id: img_name
-        run: |
-         echo "img_name=$(yq '.spec.tags[0].from.name' notebook-images/base/jupyter-minimal-notebook-imagestream.yaml | sed 's/\"/\//g')" >> ${GITHUB_OUTPUT}
-
       # Checkout the release branch to apply the updates
       - name: Checkout release branch
         uses: actions/checkout@v3
         with:
-          ref: notebooks-digest-updater
+          ref: ${{ env.DIGEST_UPDATER_BRANCH }}
 
-      - name: Fetch digest, and update the imagestream file (Step 2)
-        env:
-          IMG_NAME: ${{ steps.img_name.outputs.img_name }}
+      - name: Fetch digest, and update the param.env file
         run: |
-          src_tag=$(echo "${{ env.IMG_NAME }}" | sed 's/-weekly.*//' | cut -d':' -f2 | tr -d '"')
-          regex="$src_tag-\d+-${{ steps.hash.outputs.HASH }}"
-          echo $regex
-
-          # Get the latest tag: output ex. latest_tag=jupyter-minimal-ubi9-python-3.9-2023a-20230403-cf92364
-          latest_tag=$(skopeo inspect docker://${{ env.IMG_NAME }} | jq -r --arg regex "$regex" '.RepoTags | map(select(. | test($regex))) | .[0]')
-          echo $latest_tag
-
-          #Fetch the latest tag in Digest format: ex.digest=quay.io/opendatahub/workbench-images@sha256:xxx...xxx
-          digest=$(skopeo inspect docker://quay.io/opendatahub/workbench-images:$latest_tag | jq .Digest | sed 's/sha256/quay.io\/opendatahub\/workbench-images@sha256/g')
-          digest=$(echo "$digest" | tr -d '"' | tr -d '\\')
-          echo $digest
-
-          # Update the .spec.tags[0].from.name field on the release image stream with the digest outputed digest
-          yq eval '.spec.tags[0].from.name = "'$digest'"' -i ${{ matrix.files }}
-
-          # Fetch, pull, add, and commit the changes into the notebooks-digest-updater branch
-          git fetch origin notebooks-digest-updater && git pull origin notebooks-digest-updater && git add ${{ matrix.files }} && git commit -m "Update file ${{ matrix.files }} via digest-updater GitHub action" && git push origin notebooks-digest-updater
-
-
+              IMAGES=("odh-minimal-notebook-image-n" "odh-minimal-gpu-notebook-image-n" "odh-pytorch-gpu-notebook-image-n" "odh-generic-data-science-notebook-image-n" "odh-tensorflow-gpu-notebook-image-n" "odh-trustyai-notebook-image-n")
+              for ((i=0;i<${#IMAGES[@]};++i)); do
+                image=${IMAGES[$i]}
+                echo $image
+                img=$(cat notebook-images/base/params.env | grep -E "${image}=" | cut -d '=' -f2)
+                registry=$(echo $img | cut -d '@' -f1)
+                src_tag=$(skopeo inspect docker://$img | jq '.Env[] | select(startswith("OPENSHIFT_BUILD_NAME=")) | split("=")[1]' | tr -d '"')
+                regex="$src_tag-${{ env.RELEASE_VERSION}}-\d+-${{ steps.hash.outputs.HASH }}"
+                latest_tag=$(skopeo inspect docker://$img | jq -r --arg regex "$regex" '.RepoTags | map(select(. | test($regex))) | .[0]')
+                digest=$(skopeo inspect docker://$registry:$latest_tag | jq .Digest | tr -d '"')
+                output=$registry@$digest
+                echo $output
+                sed -i "s|${image}=.*|${image}=$output|" notebook-images/base/params.env
+              done
+              git fetch origin  ${{ env.DIGEST_UPDATER_BRANCH }} && git pull origin  ${{ env.DIGEST_UPDATER_BRANCH }} && git add notebook-images/base/params.env && git commit -m "Update file via  ${{ env.DIGEST_UPDATER_BRANCH }} GitHub action" && git push origin  ${{ env.DIGEST_UPDATER_BRANCH }}
   open-pull-request:
     needs: [ update-n-version ]
     runs-on: ubuntu-latest
@@ -111,15 +96,14 @@ jobs:
       - name: pull-request
         uses: repo-sync/pull-request@v2
         with:
-          source_branch: notebooks-digest-updater
-          destination_branch: ${{ inputs.branch }}
+          source_branch:  ${{ env.DIGEST_UPDATER_BRANCH }}
+          destination_branch: ${{ env.BRANCH_NAME}}
           github_token: ${{ secrets.GH_ACCESS_TOKEN }}
           pr_label: "automated pr"
-          pr_title: "[Digest Updater Action] Update notebook's imageStreams image tag .spec.tags[0].from.name to digest format"
+          pr_title: "[Digest Updater Action] Update notebook's imageStreams image tag to digest format"
           pr_body: |
             :rocket: This is a automated PR
 
-            _Created by `/.github/workflows/notebooks-digest-updater-upstream.yaml`
+            _Created by `/.github/workflows/digest-updater.yaml`
 
-            :exclamation: **IMPORTANT NOTE**: Remember to delete the `notebooks-digest-updater` branch after merging the changes
-
+            :exclamation: **IMPORTANT NOTE**: Remember to delete the ` ${{ env.DIGEST_UPDATER_BRANCH }}` branch after merging the changes
