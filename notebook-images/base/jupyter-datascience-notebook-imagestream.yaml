@@ -21,7 +21,7 @@ spec:
       opendatahub.io/workbench-image-recommended: 'true'
     from:
       kind: DockerImage
-      name: quay.io/opendatahub/workbench-images:jupyter-datascience-ubi9-python-3.9-2023a-weekly
+      name: $(odh-generic-data-science-notebook-image-n)
     name: "2023.1"
     referencePolicy:
       type: Local
@@ -32,7 +32,7 @@ spec:
       openshift.io/imported-from: quay.io/opendatahub/notebooks
     from:
       kind: DockerImage
-      name: quay.io/opendatahub/notebooks@sha256:5df71f5542d2e0161f0f4342aa9a390679d72dc6fae192fd8da1e5671b27e8d4
+      name:  $(odh-generic-data-science-notebook-image-n-1)
     name: "1.2"
     referencePolicy:
       type: Local

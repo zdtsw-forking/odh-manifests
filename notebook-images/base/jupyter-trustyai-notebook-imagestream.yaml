@@ -19,7 +19,7 @@ spec:
       openshift.io/imported-from: quay.io/opendatahub/workbench-images
     from:
       kind: DockerImage
-      name: quay.io/opendatahub/workbench-images:jupyter-trustyai-ubi9-python-3.9-2023a-weekly
+      name: $(odh-trustyai-notebook-image-n)
     name: "2023.1"
     referencePolicy:
       type: Local
