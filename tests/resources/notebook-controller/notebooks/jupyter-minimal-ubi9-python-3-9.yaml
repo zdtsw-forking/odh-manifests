@@ -2,15 +2,15 @@
 apiVersion: kubeflow.org/v1
 kind: Notebook
 metadata:
-  name: cuda-jupyter-tensorflow-ubi8-python-3-8
+  name: jupyter-minimal-ubi9-python-3-9
   annotations:
     notebooks.opendatahub.io/inject-oauth: "true"
 spec:
   template:
     spec:
       containers:
-        - name: cuda-jupyter-tensorflow-ubi8-python-3-8
-          image: image-registry.openshift-image-registry.svc:5000/opendatahub/jupyter-tensorflow-notebook:1.2
+        - name: jupyter-minimal-ubi9-python-3-9
+          image: image-registry.openshift-image-registry.svc:5000/opendatahub/jupyter-minimal-notebook:2023.1
           imagePullPolicy: Always
           workingDir: /opt/app-root/src
           env:
@@ -19,7 +19,7 @@ spec:
                 --ServerApp.port=8888
                 --ServerApp.token=''
                 --ServerApp.password=''
-                --ServerApp.base_url=/notebook/opendatahub/cuda-jupyter-tensorflow-ubi8-python-3-8
+                --ServerApp.base_url=/notebook/opendatahub/jupyter-minimal-ubi9-python-3-9
           ports:
             - name: notebook-port
               containerPort: 8888
@@ -39,5 +39,5 @@ spec:
             failureThreshold: 3
             httpGet:
               scheme: HTTP
-              path: /notebook/opendatahub/cuda-jupyter-tensorflow-ubi8-python-3-8/api
+              path: /notebook/opendatahub/jupyter-minimal-ubi9-python-3-9/api
               port: notebook-port
