@@ -4,6 +4,9 @@ bases:
 - ../../base
 resources:
 - elyra-notebook-imagestream.yaml
+- code-server-notebook-imagestream.yaml
+- rstudio-notebook-imagestream.yaml
+- rstudio-gpu-notebook-imagestream.yaml
 commonLabels:
   opendatahub.io/component: "true"
   component.opendatahub.io/name: notebooks

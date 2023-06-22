@@ -1,7 +1,9 @@
 # Fetched from https://github.com/opendatahub-io/notebooks root OWNERS
-reviewers:
-  - atheo89
-  - VaishnaviHire
 approvers:
   - atheo89
+  - harshad16
+
+reviewers:
+  - atheo89
+  - harshad16
   - VaishnaviHire
