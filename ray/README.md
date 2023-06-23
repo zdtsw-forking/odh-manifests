@@ -1,6 +1,6 @@
 # Deploying Ray on Open Data Hub via the KubeRay Operator
 
-The code found here is a subset of <https://github.com/ray-project/kuberay>. Specifically, the manifests needed to enable KubeRay with an Open Data Hub deployment.
+The code found here is a subset of <https://github.com/ray-project/kuberay>. Specifically, the manifests needed to enable KubeRay with an Open Data Hub deployment. No actual development occurs in this repo, to update KubeRay manifests, please make updates to <https://github.com/opendatahub-io/distributed-workloads> and then copy the updated manifests here.
 
 ## Components of the KubeRay deployment
 

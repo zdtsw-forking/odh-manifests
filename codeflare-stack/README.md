@@ -1,11 +1,10 @@
 # CodeFlare-Stack
 
-Artifacts for installing the CodeFlare stack as part of ODH
+Artifacts for installing the Project CodeFlare stack as part of ODH
 
 ## Overview
 
-CodeFlare is a simple, user-friendly abstraction for scaling,
-queuing and resource management of distributed AI/ML and Python workloads.
+CodeFlare is a simple, user-friendly abstraction for scaling, queuing, and resource management of distributed AI/ML and Python workloads.
 It consists of three components:
 
 * [CodeFlare SDK](https://github.com/project-codeflare/codeflare-sdk) to define and control remote distributed compute jobs and infrastructure with any Python based environment
@@ -17,6 +16,16 @@ We recommend using this stack alongside [KubeRay](https://github.com/ray-project
 Integration of this stack into the Open Data Hub is owned by the Distributed Workloads Working
 Group. See [this page](https://github.com/opendatahub-io/opendatahub-community/tree/master/wg-distributed-workloads)
 for further details and how to get in touch.
+
+### Compatibilty Matrix
+
+| Component                    | Version |
+|------------------------------|---------|
+| CodeFlare Operator           | v0.0.4  |
+| Multi-Cluster App Dispatcher | v1.31.0 |
+| CodeFlare-SDK                | v0.4.4  |
+| InstaScale                   | v0.0.4  |
+| KubeRay                      | v0.5.0  |
 
 ## Quick Start
 

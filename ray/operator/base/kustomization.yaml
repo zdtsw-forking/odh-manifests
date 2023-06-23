@@ -22,9 +22,10 @@ resources:
 - ../rbac
 - ../manager
 - ../prometheus
+- ../scc
 
 images:
 - name: kuberay/operator
-  newName: kuberay/operator
-  newTag: v0.3.0
+  newName: quay.io/opendatahub/kuberay-operator
+  newTag: v0.5.0
 
