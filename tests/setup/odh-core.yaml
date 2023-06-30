@@ -74,5 +74,5 @@ spec:
     name: ray-operator
   repos:
   - name: manifests
-    uri: https://github.com/opendatahub-io/odh-manifests/tarball/master
+    uri: https://github.com/opendatahub-io/odh-manifests/tarball/v1.7
   version: master
