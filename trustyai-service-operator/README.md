@@ -134,8 +134,8 @@ If you want to use a different image or tag in the future, you'll need to update
 
 ## Contributing
 
-Please see the [CONTRIBUTING.md](./CONTRIBUTING.md) file for more details on how to contribute to this project.
+Please see the [CONTRIBUTING.md](https://github.com/trustyai-explainability/trustyai-explainability/blob/main/CONTRIBUTING.md) file for more details on how to contribute to this project.
 
 ## License
 
-This project is licensed under the Apache License Version 2.0 - see the [LICENSE](./LICENSE) file for details.
+This project is licensed under the Apache License Version 2.0 - see the [LICENSE](https://github.com/trustyai-explainability/trustyai-explainability/blob/main/LICENSE) file for details.
