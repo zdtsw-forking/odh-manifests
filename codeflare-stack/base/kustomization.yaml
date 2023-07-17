@@ -2,20 +2,20 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 configMapGenerator:
-- name: codeflare-stack-config
-  envs:
-    - params.env
+- envs:
+  - params.env
+  name: codeflare-stack-config
 configurations:
-  - params.yaml
+- params.yaml
 
 vars:
-- name: namespace
+- fieldref:
+    fieldPath: data.namespace
+  name: namespace
   objref:
+    apiVersion: v1
     kind: ConfigMap
     name: codeflare-stack-config
-    apiVersion: v1
-  fieldref:
-    fieldpath: data.namespace
 
 resources:
 - codeflare-notebook-imagestream.yaml

@@ -1,13 +1,13 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ../kserve-built
+- ../kserve-built
 
 namespace: opendatahub
 
 patches:
-  - path: kserve-controller-manager-patch.yaml
-  - path: inferenceservice-config-patch.yaml
+- path: kserve-controller-manager-patch.yaml
+- path: inferenceservice-config-patch.yaml
 
 configMapGenerator:
 - envs:
@@ -19,56 +19,56 @@ generatorOptions:
 
 vars:
 - fieldref:
-    fieldpath: data.kserve-controller
+    fieldPath: data.kserve-controller
   name: kserve-controller
   objref:
     apiVersion: v1
     kind: ConfigMap
     name: kserve-parameters
 - fieldref:
-    fieldpath: data.kserve-alibi-explainer
+    fieldPath: data.kserve-alibi-explainer
   name: kserve-alibi-explainer
   objref:
     apiVersion: v1
     kind: ConfigMap
     name: kserve-parameters
 - fieldref:
-    fieldpath: data.kserve-alibi-explainer-version
+    fieldPath: data.kserve-alibi-explainer-version
   name: kserve-alibi-explainer-version
   objref:
     apiVersion: v1
     kind: ConfigMap
     name: kserve-parameters
 - fieldref:
-    fieldpath: data.kserve-art-explainer
+    fieldPath: data.kserve-art-explainer
   name: kserve-art-explainer
   objref:
     apiVersion: v1
     kind: ConfigMap
     name: kserve-parameters
 - fieldref:
-    fieldpath: data.kserve-art-explainer-version
+    fieldPath: data.kserve-art-explainer-version
   name: kserve-art-explainer-version
   objref:
     apiVersion: v1
     kind: ConfigMap
     name: kserve-parameters
 - fieldref:
-    fieldpath: data.kserve-storage-initializer
+    fieldPath: data.kserve-storage-initializer
   name: kserve-storage-initializer
   objref:
     apiVersion: v1
     kind: ConfigMap
     name: kserve-parameters
 - fieldref:
-    fieldpath: data.kserve-agent
+    fieldPath: data.kserve-agent
   name: kserve-agent
   objref:
     apiVersion: v1
     kind: ConfigMap
     name: kserve-parameters
 - fieldref:
-    fieldpath: data.kserve-router
+    fieldPath: data.kserve-router
   name: kserve-router
   objref:
     apiVersion: v1
@@ -76,4 +76,4 @@ vars:
     name: kserve-parameters
 
 configurations:
-  - params.yaml
+- params.yaml

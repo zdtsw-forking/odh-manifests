@@ -14,7 +14,7 @@ configMapGenerator:
   - name: dspo-parameters
     envs:
       - params.env
-vars:
+replacements:
   - name: IMAGES_APISERVER
     objref:
       kind: ConfigMap

@@ -1,11 +1,5 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-commonLabels:
-  app: odh-dashboard
-  app.kubernetes.io/part-of: odh-dashboard
-bases:
-  - ../apps
-  - ../modelserving
 resources:
 - role.yaml
 - cluster-role.yaml
@@ -22,6 +16,8 @@ resources:
 - image-puller.clusterrolebinding.yaml
 - model-serving-role.yaml
 - model-serving-role-binding.yaml
+- ../apps
+- ../modelserving
 images:
 - name: odh-dashboard
   newName: quay.io/opendatahub/odh-dashboard
@@ -29,3 +25,8 @@ images:
 - name: oauth-proxy
   newName: registry.redhat.io/openshift4/ose-oauth-proxy
   newTag: v4.8
+labels:
+- includeSelectors: true
+  pairs:
+    app: odh-dashboard
+    app.kubernetes.io/part-of: odh-dashboard

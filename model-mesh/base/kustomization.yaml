@@ -12,60 +12,77 @@ configMapGenerator:
 generatorOptions:
   disableNameSuffixHash: true
 
-vars:
-  - fieldref:
-      fieldPath: metadata.namespace
-    name: mesh-namespace
-    objref:
-      apiVersion: v1
+
+replacements:
+  - source:
       kind: ConfigMap
+      version: v1
       name: mesh-parameters
-  - fieldref:
-      fieldPath: data.monitoring-namespace
-    name: monitoring-namespace
-    objref:
-      apiVersion: v1
+    targets:
+      - select:
+          name: monitoring-namespace
+        fieldPaths:
+          - metadata.namespace
+  - source:
       kind: ConfigMap
+      version: v1
       name: mesh-parameters
-  - fieldref:
-      fieldPath: data.odh-modelmesh
-    name: odh-modelmesh
-    objref:
-      apiVersion: v1
+    targets:
+      - select:
+          name: monitoring-namespace
+        fieldPaths:
+          - data.monitoring-namespace
+  - source:
       kind: ConfigMap
+      version: v1
       name: mesh-parameters
-  - fieldref:
-      fieldPath: data.odh-mm-rest-proxy
-    name: odh-mm-rest-proxy
-    objref:
-      apiVersion: v1
+    targets:
+      - select:
+          name: odh-modelmesh
+        fieldPaths:
+          - data.odh-modelmesh
+  - source:
       kind: ConfigMap
+      version: v1
       name: mesh-parameters
-  - fieldref:
-      fieldPath: data.odh-modelmesh-runtime-adapter
-    name: odh-modelmesh-runtime-adapter
-    objref:
-      apiVersion: v1
+    targets:
+      - select:
+          name: odh-mm-rest-proxy
+        fieldPaths:
+          - data.odh-mm-rest-proxy
+  - source:
       kind: ConfigMap
+      version: v1
       name: mesh-parameters
-  - fieldref:
-      fieldPath: data.odh-modelmesh-controller
-    name: odh-modelmesh-controller
-    objref:
-      apiVersion: v1
+    targets:
+      - select:
+          name: odh-modelmesh-runtime-adapter
+        fieldPaths:
+          - data.odh-modelmesh-runtime-adapter
+  - source:
       kind: ConfigMap
+      version: v1
       name: mesh-parameters
-  - fieldref:
-      fieldPath: data.odh-model-controller
-    name: odh-model-controller
-    objref:
-      apiVersion: v1
+    targets:
+    - select:
+        name: odh-modelmesh-controller
+      fieldPaths:
+        - data.odh-modelmesh-controller
+  - source:
       kind: ConfigMap
+      version: v1
       name: mesh-parameters
-  - fieldref:
-      fieldPath: data.odh-openvino
-    name: odh-openvino
-    objref:
-      apiVersion: v1
+    targets:
+    - select:
+        name: odh-model-controller
+      fieldPaths:
+        - data.odh-model-controller
+  - source:
       kind: ConfigMap
-      name: mesh-parameters
+      version: v1
+      name: mesh-parameters 
+    targets:
+      - select:
+          name: mesh-parameters
+        fieldPaths:
+          - data.odh-modelmesh-controller

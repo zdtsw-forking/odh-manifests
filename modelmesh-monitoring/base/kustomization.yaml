@@ -5,23 +5,23 @@ resources:
 - prometheus-operator
 - servicemonitors
 configMapGenerator:
-  - name: model-monitoring-parameters
-    envs:
-      - params.env
+- envs:
+  - params.env
+  name: model-monitoring-parameters
 configurations:
-  - params.yaml
+- params.yaml
 vars:
-  - name: deployment-namespace
-    objref:
-      kind: ConfigMap
-      name: model-monitoring-parameters
-      apiVersion: v1
-    fieldref:
-      fieldpath: data.deployment-namespace
-  - name: monitoring-namespace
-    objref:
-      kind: ConfigMap
-      name: model-monitoring-parameters
-      apiVersion: v1
-    fieldref:
-      fieldpath: data.monitoring-namespace
+- fieldref:
+    fieldPath: data.deployment-namespace
+  name: deployment-namespace
+  objref:
+    apiVersion: v1
+    kind: ConfigMap
+    name: model-monitoring-parameters
+- fieldref:
+    fieldPath: data.monitoring-namespace
+  name: monitoring-namespace
+  objref:
+    apiVersion: v1
+    kind: ConfigMap
+    name: model-monitoring-parameters
