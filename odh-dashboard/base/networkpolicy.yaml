@@ -1,0 +1,28 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: opendatahub-applications
+spec:
+  podSelector: {}
+  ingress:
+    - ports:
+        - protocol: TCP  # dashboard 
+          port: 8443
+        # - protocol: TCP
+        #   port: 8080
+        # - protocol: TCP
+        #   port: 8081
+        # - protocol: TCP   # dsp
+        #   port: 5432
+        # - protocol: TCP   # kserve
+        #   port: 8082
+        # - protocol: TCP
+        #   port: 8099
+        # - protocol: TCP
+        #   port: 8181
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              opendatahub.io/generated-namespace: 'true'
+  policyTypes:
+    - Ingress

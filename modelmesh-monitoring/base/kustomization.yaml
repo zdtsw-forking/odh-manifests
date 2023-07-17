@@ -4,6 +4,7 @@ resources:
 - prometheus
 - prometheus-operator
 - servicemonitors
+- networkpolicy
 configMapGenerator:
   - name: model-monitoring-parameters
     envs:
