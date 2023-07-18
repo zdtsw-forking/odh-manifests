@@ -5,4 +5,11 @@ kind: Kustomization
 images:
 - name: controller
   newName: quay.io/trustyai/trustyai-service-operator
-  newTag: 1.7.0
+  newTag: v1.8.0
+configMapGenerator:
+  - name: config
+    literals:
+      - trustyaiServiceImageName=quay.io/trustyai/trustyai-service
+      - trustyaiServiceImageTag=v0.2.0
+generatorOptions:
+  disableNameSuffixHash: true
