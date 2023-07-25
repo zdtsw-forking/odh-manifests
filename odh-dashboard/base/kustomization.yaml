@@ -25,7 +25,7 @@ resources:
 images:
 - name: odh-dashboard
   newName: quay.io/opendatahub/odh-dashboard
-  newTag: v2.11.0
+  newTag: v2.12.0
 - name: oauth-proxy
   newName: registry.redhat.io/openshift4/ose-oauth-proxy
   newTag: v4.8
