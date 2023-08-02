@@ -4,17 +4,7 @@ metadata:
   name: inferenceservice-config
   namespace: kserve
 data:
-  explainers: |-
-    {
-        "alibi": {
-            "image" : "$(kserve-alibi-explainer)",
-            "defaultImageVersion": "$(kserve-alibi-explainer-version)"
-        },
-        "art": {
-            "image" : "$(kserve-art-explainer)",
-            "defaultImageVersion": "$(kserve-art-explainer-version)"
-        }
-    }
+  explainers: "{}"
   storageInitializer: |-
     {
         "image" : "$(kserve-storage-initializer)",
