@@ -33,7 +33,7 @@ Can Spawn Notebook
   # See https://github.com/red-hat-data-services/ods-ci/blob/1.20.0/tests/Resources/Page/ODH/JupyterHub/JupyterHubSpawner.robot#L201
   Click Element  id:checkbox-notebook-browser-tab-preference
 
-  Spawn Notebook With Arguments  image=jupyter-datascience-notebook
+  Spawn ODH Notebook With Arguments  image=jupyter-datascience-notebook
 
 Can Launch Python3 Smoke Test Notebook
   [Documentation]   Execute simple commands in the Jupyter notebook to verify basic functionality 
@@ -93,3 +93,69 @@ Verify Notebook Name And Image Tag
     ${notebook_name} =    Strip String    ${notebook_details}[1]
     Spawned Image Check    image=${notebook_name}
     Should Not Be Equal As Strings    ${notebook_details}[2]    latest    strip_spaces=True
+
+Spawn ODH Notebook With Arguments  # robocop: disable
+    # Temporary addition of keyword for fix of ci
+    # TODO: Remove the keywords once the fix is updated in ods-ci.
+    [Documentation]  Selects required settings and spawns a notebook pod. If it fails due to timeout or other issue
+    ...              It will try again ${retries} times (Default: 1) after ${retries_delay} delay (Default: 0 seconds).
+    ...              Environment variables can be passed in as kwargs by creating a dictionary beforehand
+    ...              e.g. &{test-dict}  Create Dictionary  name=robot  password=secret
+    ...              ${version} controls if the default or previous version is selected (default | previous)
+    [Arguments]  ${retries}=1  ${retries_delay}=0 seconds  ${image}=s2i-generic-data-science-notebook  ${size}=Small
+    ...    ${spawner_timeout}=600 seconds  ${gpus}=0  ${refresh}=${False}  ${same_tab}=${True}
+    ...    ${username}=${TEST_USER.USERNAME}  ${password}=${TEST_USER.PASSWORD}  ${auth_type}=${TEST_USER.AUTH_TYPE}
+    ...    ${version}=default    &{envs}
+    ${spawn_fail} =  Set Variable  True
+    FOR  ${index}  IN RANGE  0  1+${retries}
+        ${spawner_ready} =    Run Keyword And Return Status    Wait Until JupyterHub Spawner Is Ready
+        IF  ${spawner_ready}==True
+            Select Notebook Image  ${image}  
+            Select Container Size  ${size}
+            ${gpu_visible} =    Run Keyword And Return Status    Wait Until GPU Dropdown Exists
+            IF  ${gpu_visible}==True and ${gpus}>0
+                Set Number Of Required GPUs  ${gpus}
+            ELSE IF  ${gpu_visible}==False and ${gpus}>0
+                IF    ${index} < ${retries}
+                    Sleep    30s    reason=Wait for GPU to free up
+                    SeleniumLibrary.Reload Page
+                    Wait Until JupyterHub Spawner Is Ready
+                    CONTINUE
+                ELSE
+                    Fail  GPUs required but not available
+                END
+            END
+            IF   ${refresh}
+                Reload Page
+                Capture Page Screenshot    reload.png
+                Wait Until JupyterHub Spawner Is Ready
+            END
+            IF  &{envs}
+                Remove All Spawner Environment Variables
+                FOR  ${key}  ${value}  IN  &{envs}[envs]
+                    Sleep  1
+                    Add Spawner Environment Variable  ${key}  ${value}
+                END
+            END
+            Spawn Notebook    ${spawner_timeout}    ${same_tab}
+            ${oauth_prompt_visible} =  Is OpenShift OAuth Login Prompt Visible
+            IF  ${oauth_prompt_visible}  Click Button  Log in with OpenShift
+            Run Keyword And Warn On Failure   Login To Openshift  ${username}  ${password}  ${auth_type}
+            ${authorization_required} =  Is Service Account Authorization Required
+            IF  ${authorization_required}  Authorize jupyterhub service account
+            Wait Until Page Contains Element  xpath://div[@id="jp-top-panel"]  timeout=60s
+            Sleep    2s    reason=Wait for a possible popup
+            Maybe Close Popup
+            Open New Notebook In Jupyterlab Menu
+            Spawned Image Check  ${image} 
+            ${spawn_fail} =  Has Spawn Failed
+            Exit For Loop If  ${spawn_fail} == False
+            Reload Page
+        ELSE
+            Sleep  ${retries_delay}
+            Reload Page
+        END
+    END
+    IF  ${spawn_fail} == True
+        Fail  msg= Spawner failed loading after ${retries} retries
+    END
