@@ -8,6 +8,7 @@ metadata:
     opendatahub.io/notebook-image-name: "CUDA - R Studio"
     opendatahub.io/notebook-image-desc: "R Studio workbench image, allows to integrated development environment for R, a programming language for statistical computing and graphics."
     opendatahub.io/notebook-image-order: "9"
+    opendatahub.io/recommended-accelerators: '["nvidia.com/gpu"]'
   name: rstudio-gpu-notebook
 spec:
   lookupPolicy:
