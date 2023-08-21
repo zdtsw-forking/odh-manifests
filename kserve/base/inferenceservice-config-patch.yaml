@@ -14,11 +14,6 @@ data:
         "cpuLimit": "1",
         "enableDirectPvcVolumeMount": false
     }
-  credentials: |-
-    {
-       "storageSpecSecretName": "storage-config",
-       "storageSecretNameAnnotation": "serving.kserve.io/storageSecretName"
-    }
   ingress: |-
     {
         "ingressGateway" : "knative-serving/knative-ingress-gateway",
